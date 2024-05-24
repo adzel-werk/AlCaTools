@@ -36,7 +36,7 @@ for i,splitIOVs in enumerate(RelevantIOVs):
     command="conddb_import -f sqlite:dump_one_shot_v1.5_447_232134_256483.db -c sqlite:EcalLaserAPDPNRatios_"+begin+"_"+end+".db -i EcalLaserAPDPNRatios_20151007_232134_256483 -t EcalLaserAPDPNRatios -b "+begin\
 +" -e "+end
 #+" -e "+upperLimit
-    print command
+    print(command)
     
     #Now if we want to execute it inside Python uncomment the following two lines:                                                                                      
     STDOUT=subprocess.Popen(command,shell=True,stdout=subprocess.PIPE,stderr=subprocess.STDOUT).stdout.read()                                                             

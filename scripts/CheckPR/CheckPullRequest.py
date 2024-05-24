@@ -86,7 +86,7 @@ elif len(sys.argv) == 2:
                os.chdir("../")
                continue
 
-            print "Creating logs of", workflow[0], ":"
+            print("Creating logs of", workflow[0], ":")
             for toCheck in ListOfFilesToCheck:
                print("   edmEventSize -v -a %s.root > eventSize_%s_%s.log 2>&1" % (toCheck, workflow[0], toCheck))
                os.system("eval `scramv1 runtime -sh` && edmEventSize -v -a %s.root > eventSize_%s_%s.log 2>&1" % (toCheck, workflow[0], toCheck))
