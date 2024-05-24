@@ -52,10 +52,10 @@ def natural_sort(l):
 
 
 def usage() :
-      print 'LaunchOnCondor [options]'
+      print('LaunchOnCondor [options]')
 #      print '   -j json file with lumi info'
 #      print '   -o output file'
-      print 'is an interface to submit jobs to LSF/Condor/Crab3 batch in a high-level way'
+      print('is an interface to submit jobs to LSF/Condor/Crab3 batch in a high-level way')
 
 
 def CreateTheConfigFile(argv):
@@ -204,7 +204,7 @@ def CreateTheShellFile(argv):
                 for config in Path_Cfg:
  		        shell_file.write('cmsRun ' + os.getcwd() + '/'+config + '\n')
 	else:
-		print #Program to use is not specified... Guess it is bash command		
+		print(#Program to use is not specified... Guess it is bash command)
                 shell_file.write('#Program to use is not specified... Guess it is bash command\n')
 		shell_file.write(argv[1] + " %s\n" % function_argument)
 
@@ -404,12 +404,12 @@ def SendCluster_Push(Argv):
 	Jobs_Index = "%04i_" % Jobs_Count
         if Jobs_Count==0 and (Argv[0]=="ROOT" or Argv[0]=="FWLITE"):                
                 #First Need to Compile the macro --> Create a temporary shell path with no arguments
-                print "Compiling the Macro..."
+                print("Compiling the Macro...")
                 CreateTheShellFile([Argv[0],Argv[1]])
                 os.system('sh '+Path_Shell)
                 os.system('rm '+Path_Shell)
-		print "Getting the jobs..."
-	print Argv
+		print("Getting the jobs...")
+	print(Argv)
         CreateTheShellFile(Argv)
         AddJobToCmdFile()
 	Jobs_Count = Jobs_Count+1
@@ -424,8 +424,8 @@ def SendCluster_Submit():
         elif subTool=='crab':                  os.system("sh " + Path_Cmd)
 	else:          	       	               os.system("condor_submit " + Path_Cmd)  
 
-	print '\n'+CopyRights
-	print '%i Job(s) has/have been submitted on the Computing Cluster' % Jobs_Count
+	print('\n'+CopyRights)
+	print('%i Job(s) has/have been submitted on the Computing Cluster' % Jobs_Count)
 
 def SendSingleJob(FarmDirectory, JobName, Argv):
 	SendCluster_Create(FarmDirectory, JobName, Argv)
@@ -494,7 +494,7 @@ def SendCMSMergeJob(FarmDirectory, JobName, InputFiles, OutputFile, KeepStatemen
         Temp_Cfg   = Farm_Directories[1]+Jobs_Index+Jobs_Name+'_TEMP_cfg.py'
 
 	if len(InputFiles)==0:
-		print 'Empty InputFile List for Job named "%s", Job will not be submitted' % JobName
+		print('Empty InputFile List for Job named "%s", Job will not be submitted' % JobName)
 		return
 
         InputFilesString = ''
