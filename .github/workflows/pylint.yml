@@ -9,7 +9,7 @@ jobs:
       matrix:
         python-version: ["3.8", "3.9", "3.10"]
     container:
-      image: cmssw/cmssw:latest
+      image: cmssw/cms:CMSSW_12_0_0
     steps:
     - uses: actions/checkout@v4
     
@@ -26,7 +26,8 @@ jobs:
     - name: Set up CMSSW environment
       run: |
         # Set up the CMSSW environment
-        source /cvmfs/cms.cern.ch/cmsset_default.sh
+        export VO_CMS_SW_DIR=/cvmfs/cms.cern.ch
+        source $VO_CMS_SW_DIR/cmsset_default.sh
         scram project CMSSW CMSSW_12_0_0
         cd CMSSW_12_0_0/src
         eval `scram runtime -sh`
@@ -35,6 +36,7 @@ jobs:
     - name: Analysing the code with pylint
       run: |
         # Re-establish the CMSSW environment in the current shell
-        source /cvmfs/cms.cern.ch/cmsset_default.sh
+        export VO_CMS_SW_DIR=/cvmfs/cms.cern.ch
+        source $VO_CMS_SW_DIR/cmsset_default.sh
         eval `scram runtime -sh`
         pylint --disable=all --enable=E $(git ls-files '*.py')
