@@ -8,6 +8,8 @@ jobs:
     strategy:
       matrix:
         python-version: ["3.8", "3.9", "3.10"]
+    container:
+      image: cmssw/cmssw:latest
     steps:
     - uses: actions/checkout@v4
     
@@ -21,22 +23,19 @@ jobs:
         python -m pip install --upgrade pip
         pip install pylint prettytable sqlalchemy
     
-    - name: Run inside CMSSW Docker container
-      uses: addnab/docker-run-action@v3
-      with:
-        image: cmssw/cmssw:latest
-        options: --user $(id -u):$(id -g)
-        run: |
-          # Set up the CMSSW environment
-          source /cvmfs/cms.cern.ch/cmsset_default.sh
-          scram project CMSSW CMSSW_12_0_0
-          cd CMSSW_12_0_0/src
-          eval `scram runtime -sh`
-          cd $GITHUB_WORKSPACE
-          
-          # Reinstall dependencies inside Docker container
-          python -m pip install --upgrade pip
-          pip install pylint prettytable sqlalchemy
-          
-          # Run pylint
-          pylint --disable=all --enable=E $(git ls-files '*.py')
+    - name: Set up CMSSW environment
+      run: |
+        # Set up the CMSSW environment
+        source /cvmfs/cms.cern.ch/cmsset_default.sh
+        scram project CMSSW CMSSW_12_0_0
+        cd CMSSW_12_0_0/src
+        eval `scram runtime -sh`
+        cd $GITHUB_WORKSPACE
+    
+    - name: Analysing the code with pylint
+      run: |
+        # Re-establish the CMSSW environment in the current shell
+        source /cvmfs/cms.cern.ch/cmsset_default.sh
+        eval `scram runtime -sh`
+        pylint --disable=all --enable=E $(git ls-files '*.py')
+	
